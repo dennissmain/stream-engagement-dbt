@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: stg_events
+    description: "Cleaned staging layer from raw events"
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+      - name: movie_id
+        tests:
+          - not_null
+      - name: action
+        tests:
+          - accepted_values:
+              values: ['watch', 'like', 'pause', 'search']
+
+  - name: fact_engagement
+    description: "Aggregated engagement metrics per movie and genre"
+    columns:
+      - name: movie_id
+        tests: [not_null, unique]
+
+  - name: user_genre_engagement
+    description: "User behavior analytics across genres"
+    columns:
+      - name: user_id
+        tests: [not_null]
+      - name: genre
+        tests: [not_null]
